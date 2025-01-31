@@ -1,0 +1,18 @@
+{
+  "name": "jobtesttask",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "wdio run ./src/config/wdio.conf.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@wdio/allure-reporter": "^9.6.3",
+    "@wdio/cli": "^9.7.2",
+    "@wdio/local-runner": "^9.7.2",
+    "@wdio/mocha-framework": "^9.7.2",
+    "@wdio/spec-reporter": "^9.6.3"
+  }
+}
