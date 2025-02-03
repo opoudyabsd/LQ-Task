@@ -1,65 +1,64 @@
 import { browser, expect } from "@wdio/globals";
-import CheckoutPage from "../page/checkout.page";
-import ProductsItem from "./products.comp";
-const productItem = new ProductsItem()
-class Checkout extends CheckoutPage{
+import { faker } from "@faker-js/faker";
+const firstName = faker.person.firstName();
+const lastName = faker.person.lastName();
+const postalCode = faker.location.zipCode();
+class Checkout{
     get firstName() {
-        return $('//*[@id="first-name"]')
+        return $('#first-name')
     }
     get lastName() {
-        return $('//*[@id="last-name"]')
+        return $('#last-name')
     }
     get postalCode() {
-        return $('//*[@id="postal-code"]')
+        return $('#postal-code')
     }
     get continueButton() {
-        return $('//*[@id="continue"]')
+        return $('#continue')
     }
     get totalValue() {
-        return $('//div[@class="summary_total_label"]')
+        return $('.summary_total_label')
     }
     get finishButton() {
         return $("#finish")
     }
     get message() {
-        return $("//h2[@class='complete-header']")
+        return $("h2.complete-header")
     }
     get backHomeButton() {
-        return $('//button[@id="back-to-products"]')
-    }
-    get title() {
-        return $("//span[@class='title']")
+        return $('#back-to-products')
     }
 
-    async validateStepOneTitle() {
-        await expect(this.title).toHaveText("Checkout: Your Information")
+    async clickContinueButton() {
+        await this.continueButton.click()
     }
-    async validateStepTwoTitle() {
-        await expect(this.title).toHaveText("Checkout: Overview")
+    async clickFinishButton() {
+        await this.finishButton.click()
     }
-    async validationPageCompleteTitle() {
-        await expect(this.title).toHaveText("Checkout: Complete!")
+    async clickBackHomeButton() {
+        await this.backHomeButton.click()
     }
 
-    async comparePrice() {
+
+    async comparePrice(price, tax) {
         const text = await this.totalValue.getText()
         const value = text.replace(/[^0-9.]/g, '')
         const numericValue = parseFloat(value)
-        const expectedValue = productItem.productPrice + productItem.productTax;
+        const expectedValue = price + tax;
         await expect(numericValue).toBe(expectedValue)
     }
 
     async fillFirstName() {
-        await this.firstName.setValue("Jason")
-        await expect(this.firstName).toHaveValue("Jason")
+        await this.firstName.setValue(firstName)
+        await expect(this.firstName).toHaveValue(firstName)
     }
     async fillLastName() {
-        await this.lastName.setValue("Statham")
-        await expect(this.lastName).toHaveValue("Statham")
+        await this.lastName.setValue(lastName)
+        await expect(this.lastName).toHaveValue(lastName)
     }
     async fillPostalCode() {
-        await this.postalCode.setValue("NG19")
-        await expect(this.postalCode).toHaveValue("NG19")
+        await this.postalCode.setValue(postalCode)
+        await expect(this.postalCode).toHaveValue(postalCode)
     }
 
     async verificationComplete() {
@@ -67,4 +66,4 @@ class Checkout extends CheckoutPage{
     }
 }
 
-export default Checkout
+export default new Checkout

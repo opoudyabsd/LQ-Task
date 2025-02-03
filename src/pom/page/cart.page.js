@@ -1,15 +1,15 @@
-import MainPage from "./main.page"
-
-class CartPage extends MainPage{
+class CartPage{
     get cartUrl() {
         return "https://www.saucedemo.com/cart.html"
     }
-    async open(){
-        await browser.url(this.cartUrl)
-    }    
-    async validateUrl() {
-        await expect(browser).toHaveUrl(this.cartUrl)
+    get title() {
+        return $("span.title")
     }
+    async validatePage() {
+        await expect(browser).toHaveUrl(this.cartUrl)
+        await expect(this.title).toHaveText("Your Cart")
+    }
+    
 }
 
-export default CartPage
+export default new CartPage

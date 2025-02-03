@@ -3,12 +3,15 @@ class MainPage {
         return 'https://www.saucedemo.com/inventory.html'
     }
 
-    async open () {
-        return browser.url(this.url);
+    get title() {
+        return $('.title')
     }
 
     async validatePage() {
         await expect(browser).toHaveUrl(this.url)
+        await expect(this.title).toHaveText("Products")
     }
+
+
 }
-export default MainPage
+export default new MainPage

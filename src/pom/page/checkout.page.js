@@ -1,6 +1,5 @@
 import { browser, expect } from "@wdio/globals";
-import CartPage from "./cart.page";
-class CheckoutPage extends CartPage {
+class CheckoutPage {
     get urlStepOne() {
         return 'https://www.saucedemo.com/checkout-step-one.html'
     }
@@ -10,29 +9,22 @@ class CheckoutPage extends CartPage {
     get urlComplete() {
         return "https://www.saucedemo.com/checkout-complete.html"
     }
-
-
-
-    async openStepOne () {
-        return browser.url(this.urlStepOne);
-    }
-    async openStepTwo() {
-        return browser.url(this.urlStepTwo)
-    }
-    async openCompleteStep() {
-        return browser.url(this.urlComplete)
+    get title() {
+        return $("span.title")
     }
 
-    async validationStepOneUrl() {
+    async validationStepOne() {
         await expect(browser).toHaveUrl(this.urlStepOne)
+        await expect(this.title).toHaveText("Checkout: Your Information")
+
     }
-    async validationStepTwoUrl() {
+    async validationStepTwo() {
         await expect(browser).toHaveUrl(this.urlStepTwo)
+        await expect(this.title).toHaveText("Checkout: Overview")
     }
-    async validationPageCompleteUrl() {
+    async validationPageComplete() {
         await expect(browser).toHaveUrl(this.urlComplete)
+        await expect(this.title).toHaveText("Checkout: Complete!")
     }
-
-
 }
-export default CheckoutPage
+export default new CheckoutPage
